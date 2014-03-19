@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+ <head>
+ <title>Add Habit</title>
+<script src="js-1.js"></script>
+<script src="js-2.js"></script>
+<link rel="stylesheet" href="js-3.css">
+<!-- Prerequisites: jQuery and jQuery UI Stylesheet -->
+<script type="text/javascript" src="jsfile-1.js"></script>
+<link rel="stylesheet" type="text/css" href="cssfile-1.css" />
+
+
+
+<!-- Plugin files below -->
+<link rel="stylesheet" type="text/css" href="jquery.ptTimeSelect.css" />
+<script type="text/javascript" src="jquery.ptTimeSelect.js"></script>
+
+ </head>
+<body>
+
+<div data-role="page" id="twitterPage" data-theme="a">
+		<h1 style="padding-left:600px">Add Habit</h1>
+      <div data-role="content">
+	  <form id="form1">
+        <input class="name" name="name" placeholder="Habit Name" type="text" id="tweet-list"  >
+		<input class="time" name="time" placeholder="Time of Reminder" type="text" id="tweet-list"  >
+		<input class="q" name="q" placeholder="Question to be Asked" type="text" id="tweet-list"  >
+		<input type="button" onClick="save()" value="Save" /	>
+	 </form>
+      </div>
+</div>
+
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.time').ptTimeSelect();
+        });
+		var name1;
+		function save(){
+			name1 = document.getElementById('form1');
+	//		name1[0]=name1[0].toString();
+		//	name1[1]=name1[1].toString();
+			//name1[2]=name1[2].toString();
+//			alert(typeof(name1));
+	//		alert(name1.length.toString());
+	//		for(var i=0;i<name1.length-1;i++)
+		//	{
+			//	var item = name1[i];
+		//		alert(item.value);
+				// insert them in database and go back to page 1 .
+				
+	//		}
+			var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+			db.transaction(populateDB, errorCB, successCB);
+			
+				window.location = "index.html";
+		}
+		
+		function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+	 function successCB() {
+        alert("success!");
+    }
+	
+		   function populateDB(tx) {
+		   tx.executeSql('CREATE TABLE IF NOT EXISTS TAB1(id unique AUTO_INCREMENT , name varchar(50) , question varchar(100) ,time1 varchar(50) )');
+		//   alert("Success_lakalka");
+			alert(typeof(name1[1].value));
+			var sql1 = 'INSERT INTO TAB1 (id,name,question,time1) VALUES (4'+'"'+name1[0].value+'"'+','+'"'+name1[2].value+'"'+','+'"'+name1[1].value+'"'+')'
+			alert(sql1);
+			tx.executeSql(sql1);
+			//tx.executeSql('INSERT INTO TAB1 (id,name,question,time1) VALUES (100,"dcdsds","sdcdsc","fdsds")');
+		   //alert("Success_lakalka");
+		   }
+    </script>
+
+
+</body>

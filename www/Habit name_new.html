@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+ <head>
+ <title>Habit </title>
+ 
+<script src="js-1.js"></script>
+<script src="js-2.js"></script>
+
+<!-- Prerequisites: jQuery and jQuery UI Stylesheet -->
+<script type="text/javascript" src="jsfile-1.js"></script>
+<link rel="stylesheet" type="text/css" href="cssfile-1.css" />
+
+
+
+<!-- Plugin files below -->
+<link rel="stylesheet" type="text/css" href="jquery.ptTimeSelect.css" />
+<script type="text/javascript" src="jquery.ptTimeSelect.js"></script>
+
+
+
+<script>
+		var name="";
+		var glob_name,glob_timeff,glob_question;
+	    function fetchdata() {
+			var db = window.openDatabase("Database","1.0","Cordova Demo", 200000);
+			db.transaction(queryDB, errorCB1, querySuccess);
+			}
+			function queryDB(tx) {
+			var t = getParameter("a");
+			l='SELECT * FROM TAB1 WHERE id='+t;
+	//		alert(l);
+			tx.executeSql(l, [], querySuccess, errorCB1);
+			var daffa=document.getElementById("timout");
+			daffa.value=glob_timeff;
+			var daffa1=document.getElementById("qwe");
+			daffa1.value=glob_question;
+			var daffa2=document.getElementById("hab");
+			daffa2.value=glob_name;
+			}
+	
+		
+	function querySuccess(tx, results) {
+		glob_name = results.rows.item(0).name;
+		glob_timeff = results.rows.item(0).time1;
+		glob_question = results.rows.item(0).question;
+	//	alert(glob_name+glob_timeff+glob_question);
+
+		var a = document.getElementById("hab").innerHTML = "name";
+		
+		var timeff = document.getElementById("timout").innerHTML = "time";
+		var question = document.getElementById("qwe").innerHTML = "question";
+		    var len = results.rows.length;
+    console.log("DEMO table: " + len + " rows found.");
+//	alert("'"+results.rows.item(0).name+"'");
+	console.log("DEMO: " + results.rows.item(0).name + "rows found.");
+}
+
+	
+		function errorCB1(err) {
+     //   alert("Error processing SQLllllllc: "+err);
+    }
+	 function successCB() {
+  //      alert("success!");
+    }
+		
+		function getParameter(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+		window.onload = fetchdata();
+		
+		  $(document).ready(function(){
+            $('.time').ptTimeSelect();
+        });
+		
+		
+				
+</script>
+<link rel="stylesheet" href="js-3.css">
+ </head>
+<body>
+
+
+<div data-role="page" id="twitterPage"  class="gp" data-theme="a">
+		<h1 id="hab" class="hab" style="padding-left:600px">Habit Name</h1>
+		     <div data-role="content">
+			 <form>
+		 <ul id="tweet-list" data-role="listview" data-inset="true"  >
+			 <li id="time" > When Should I be Reminded?  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="time" id="timout" name="time"   type="text"  ></input></li>
+			 <li id="question" >What question would I be asked? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="qwe" value="Anything You like	!!  "></input></li>
+		</ul>	 
+		</form>
+			 
+			<input type="submit" value="Show My Progress"onclick="window.location='canvas-graph -combo.htm';" /> 
+    </div>
+</div>
+		
+		<script>
+		var t=getParameter("a");
+	//	alert(glob_name+glob_timeff+glob_question);
+		var a = document.getElementById("hab").innerHTML = glob_name;
+			var timeff = document.getElementById("timout").innerHTML = glob_timeff;
+		var question = document.getElementById("qwe").innerHTML = glob_question;
+	
+		</script>
+ 
+
+</body>

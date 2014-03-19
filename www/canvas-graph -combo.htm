@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Interactive Line Graph</title>
+        <script src="js-1.js"></script>
+        <script>
+            var graph;
+            var xPadding;
+            var yPadding;
+            var el=new Array();
+			el[0]=7;el[1]=30;el[2]=35;
+            var data = [ [
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 50 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 50 },
+                { X: "5th", Y: 60 },
+				{ X: "6th", Y: 50 },
+				{ X: "7th", Y: 90 },
+				],
+				[	
+		
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },
+				
+				],
+				[
+				{ X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },
+				{ X: "31st", Y: 34 },
+                { X: "32nd", Y: 36 },
+                { X: "33rd", Y: 38 },
+                { X: "34th", Y: 34 },
+                { X: "35th", Y: 30 },
+                 
+				]
+            ];
+			//ind=0
+			
+            // Returns the max Y value in our data list
+            function getMaxY(ind) {
+                var max = 0;
+                var pm="value";
+                for(var i = 0; i < el[ind]; i ++) {
+                    if(data[ind][i].Y > max) {
+                        max = data[ind][i].Y;
+                    }
+                }
+                
+                max += 10 - max % 10;
+                return max;
+            }
+            
+            // Return the x pixel for a graph point
+            function getXPixel(val,ind) {
+                return ((graph.width() - xPadding) / el[ind]) * val + (xPadding * 1.5);
+            }
+            
+            // Return the y pixel for a graph point
+            function getYPixel(val,ind) {
+	//			alert((graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding).toString());
+                return graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding;
+            }
+			
+            $(document).ready(function() {
+			for( var ind=0;ind<1;ind++){
+				xPadding=30;//+100*ind;
+				yPadding=30-100*ind;
+                graph = $('#graph');
+		//		alert(ind.toString());
+                var c = graph[0].getContext('2d');            
+                
+                c.lineWidth = 2;000
+                c.strokeStyle = '#333';
+                c.font = 'italic 8pt sans-serif';
+                c.textAlign = "center";
+                
+                // Draw the axises
+                c.beginPath();
+                c.moveTo(xPadding, 0);
+                c.lineTo(xPadding, graph.height() - yPadding);
+                c.lineTo(graph.width(), graph.height() - yPadding);
+                c.stroke();
+                
+                // Draw the X value texts
+                for(var i = 0; i < el[ind]; i ++) {
+                    c.fillText(data[ind][i].X, getXPixel(i,ind), graph.height() - yPadding + 20);
+                }
+                
+                // Draw the Y value texts
+                c.textAlign = "right"
+                c.textBaseline = "middle";
+                
+                for(var i = 0; i < getMaxY(ind); i += 10) 
+				{
+                    c.fillText(i, xPadding - 10, getYPixel(i,ind));
+                }
+                
+                c.strokeStyle = '#f00';
+                
+                // Draw the line graph
+                c.beginPath();
+			//	alert(getYPixel(data[ind][0].Y).toString());
+                c.moveTo(getXPixel(0,ind), getYPixel(data[ind][0].Y,ind));
+                for(var i = 1; i < el[ind]; i++) {
+                    c.lineTo(getXPixel(i,ind), getYPixel(data[ind][i].Y,ind));
+                }
+                c.stroke();
+                
+                // Draw the dots
+				
+                c.fillStyle = '#333';
+           //alert((data[0][0].Y).toString());     
+                for(var i = 0; i < el[ind]; i++) {  
+                    c.beginPath();
+		//			alert(getXPixel(i,ind).toString())
+				//	alert(getYPixel(data[ind][i].Y).toString())
+                    c.arc(getXPixel(i,ind),getYPixel((data[ind][i].Y),ind), 4, 0, Math.PI * 2, true);
+					//alert("about to draw")
+                    c.fill();
+                }
+            
+				}
+			
+			});
+        </script>
+		<script>
+            var graph;
+            var xPadding;
+            var yPadding;
+            var el=new Array();
+			el[0]=7;el[1]=30;el[2]=35;
+            var data = [[
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 50 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 50 },
+                { X: "5th", Y: 60 },
+				{ X: "6th", Y: 50 },
+				{ X: "7th", Y: 90 },
+				],
+				[	
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },			
+				],
+				[
+				{ X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },
+				{ X: "31st", Y: 34 },
+                { X: "32nd", Y: 36 },
+                { X: "33rd", Y: 38 },
+                { X: "34th", Y: 34 },
+                { X: "35th", Y: 30 },
+                 
+				 
+				]
+            ];
+			//ind=0
+			
+            // Returns the max Y value in our data list
+            function getMaxY(ind) {
+                var max = 0;
+                var pm="value";
+                for(var i = 0; i < el[ind]; i ++) {
+                    if(data[ind][i].Y > max) {
+                        max = data[ind][i].Y;
+                    }
+                }
+                
+                max += 10 - max % 10;
+                return max;
+            }
+            
+            // Return the x pixel for a graph point
+            function getXPixel(val,ind) {
+                return ((graph.width() - xPadding) / el[ind]) * val + (xPadding * 1.5);
+            }
+            
+            // Return the y pixel for a graph point
+            function getYPixel(val,ind) {
+	//			alert((graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding).toString());
+                return graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding;
+            }
+			
+            $(document).ready(function() {
+			for( var ind=1;ind<2;ind++){
+				xPadding=35;//+100*ind;
+				yPadding=10;//*ind;
+                graph = $('#graph1');
+		//		alert(ind.toString());
+                var c = graph[0].getContext('2d');            
+                
+                c.lineWidth = 2;000
+                c.strokeStyle = '#333';
+                c.font = 'italic 8pt sans-serif';
+                c.textAlign = "center";
+                
+                // Draw the axises
+                c.beginPath();
+                c.moveTo(xPadding, 0);
+                c.lineTo(xPadding, graph.height() - yPadding);
+                c.lineTo(graph.width(), graph.height() - yPadding);
+                c.stroke();
+                
+                // Draw the X value texts
+                for(var i = 0; i < el[ind]; i ++) {
+                    c.fillText(data[ind][i].X, getXPixel(i,ind), graph.height() - yPadding + 20);
+                }
+                
+                // Draw the Y value texts
+                c.textAlign = "right"
+                c.textBaseline = "middle";
+                
+                for(var i = 0; i < getMaxY(ind); i += 10) 
+				{
+                    c.fillText(i, xPadding - 10, getYPixel(i,ind));
+                }
+                
+                c.strokeStyle = '#f00';
+                
+                // Draw the line graph
+                c.beginPath();
+			//	alert(getYPixel(data[ind][0].Y).toString());
+                c.moveTo(getXPixel(0,ind), getYPixel(data[ind][0].Y,ind));
+                for(var i = 1; i < el[ind]; i++) {
+                    c.lineTo(getXPixel(i,ind), getYPixel(data[ind][i].Y,ind));
+                }
+                c.stroke();
+                
+                // Draw the dots
+				
+                c.fillStyle = '#333';
+           //alert((data[0][0].Y).toString());     
+                for(var i = 0; i < el[ind]; i++) {  
+                    c.beginPath();
+		//			alert(getXPixel(i,ind).toString())
+				//	alert(getYPixel(data[ind][i].Y).toString())
+                    c.arc(getXPixel(i,ind),getYPixel((data[ind][i].Y),ind), 4, 0, Math.PI * 2, true);
+					//alert("about to draw")
+                    c.fill();
+                }
+            
+				}
+			
+			});
+        </script>
+		<script>
+            var graph;
+            var xPadding;
+            var yPadding;
+            var el=new Array();
+			el[0]=7;el[1]=30;el[2]=35;
+            var data = [ [
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 50 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 50 },
+                { X: "5th", Y: 60 },
+				{ X: "6th", Y: 50 },
+				{ X: "7th", Y: 90 },
+				],
+				[	
+		
+                { X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },
+				
+				],
+				[
+				{ X: "1st", Y: 100 },
+                { X: "2nd", Y: 60 },
+                { X: "3rd", Y: 66 },
+                { X: "4th", Y: 55 },
+                { X: "5th", Y: 50 },
+				{ X: "6th", Y: 53 },
+                { X: "7th", Y: 45 },
+                { X: "8th", Y: 66 },
+                { X: "9th", Y: 70 },
+                { X: "10th", Y: 75 },
+				{ X: "11st", Y: 70 },
+                { X: "12nd", Y: 60 },
+                { X: "13rd", Y: 62 },
+                { X: "14th", Y: 63 },
+                { X: "15th", Y: 60 },
+				{ X: "16st", Y: 58 },
+                { X: "17nd", Y: 58 },
+                { X: "18rd", Y: 55 },
+                { X: "19th", Y: 58 },
+                { X: "20th", Y: 60 },
+				{ X: "21st", Y: 56 },
+                { X: "22nd", Y: 57 },
+                { X: "23rd", Y: 54 },
+                { X: "24th", Y: 52 },
+                { X: "25th", Y: 50 },
+				{ X: "26th", Y: 47 },
+				{ X: "27th", Y: 45 },
+				{ X: "28th", Y: 41 },
+				{ X: "29th", Y: 39 },
+				{ X: "30th", Y: 36 },
+				{ X: "31st", Y: 34 },
+                { X: "32nd", Y: 36 },
+                { X: "33rd", Y: 38 },
+                { X: "34th", Y: 34 },
+                { X: "35th", Y: 30 },
+                 
+				]
+            ];
+			//ind=0
+			
+            // Returns the max Y value in our data list
+            function getMaxY(ind) {
+                var max = 0;
+                var pm="value";
+                for(var i = 0; i < el[ind]; i ++) {
+                    if(data[ind][i].Y > max) {
+                        max = data[ind][i].Y;
+                    }
+                }
+                
+                max += 10 - max % 10;
+                return max;
+            }
+            
+            // Return the x pixel for a graph point
+            function getXPixel(val,ind) {
+                return ((graph.width() - xPadding) / el[ind]) * val + (xPadding * 1.5);
+            }
+            
+            // Return the y pixel for a graph point
+            function getYPixel(val,ind) {
+	//			alert((graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding).toString());
+                return graph.height() - (((graph.height() - yPadding) / getMaxY(ind)) * val) - yPadding;
+            }
+			
+            $(document).ready(function() {
+			for( var ind=2;ind<3;ind++){
+				xPadding=60;//+100*ind;
+				yPadding=25;
+                graph = $('#graph2');
+		//		alert(ind.toString());
+                var c = graph[0].getContext('2d');            
+                
+                c.lineWidth = 2;000
+                c.strokeStyle = '#333';
+                c.font = 'italic 8pt sans-serif';
+                c.textAlign = "center";
+                
+                // Draw the axises
+                c.beginPath();
+                c.moveTo(xPadding, 0);
+                c.lineTo(xPadding, graph.height() - yPadding);
+                c.lineTo(graph.width(), graph.height() - yPadding);
+                c.stroke();
+                
+                // Draw the X value texts
+                for(var i = 0; i < el[ind]; i ++) {
+                    c.fillText(data[ind][i].X, getXPixel(i,ind), graph.height() - yPadding + 20);
+                }
+                
+                // Draw the Y value texts
+                c.textAlign = "right"
+                c.textBaseline = "middle";
+                
+                for(var i = 0; i < getMaxY(ind); i += 10) 
+				{
+                    c.fillText(i, xPadding - 10, getYPixel(i,ind));
+                }
+                
+                c.strokeStyle = '#f00';
+                
+                // Draw the line graph
+                c.beginPath();
+			//	alert(getYPixel(data[ind][0].Y).toString());
+                c.moveTo(getXPixel(0,ind), getYPixel(data[ind][0].Y,ind));
+                for(var i = 1; i < el[ind]; i++) {
+                    c.lineTo(getXPixel(i,ind), getYPixel(data[ind][i].Y,ind));
+                }
+                c.stroke();
+                
+                // Draw the dots
+				
+                c.fillStyle = '#333';
+           //alert((data[0][0].Y).toString());     
+                for(var i = 0; i < el[ind]; i++) {  
+                    c.beginPath();
+		//			alert(getXPixel(i,ind).toString())
+				//	alert(getYPixel(data[ind][i].Y).toString())
+                    c.arc(getXPixel(i,ind),getYPixel((data[ind][i].Y),ind), 4, 0, Math.PI * 2, true);
+					//alert("about to draw")
+                    c.fill();
+                }
+            
+				}
+			
+			});
+        </script>
+    </head>
+    <body>
+	<h3 style="border-radius:5px;color:#fff;	padding:20px;background-color:#39424e">Weekly</h3>
+	<div>
+		
+        <canvas id="graph" width="500" height="300" >   
+        </canvas> 
+	</div>
+	<hr style="display: block; height: 1px;
+    border: 0; border-top: 1px solid #ccc;
+    margin: 1em 0; padding: 0;">
+	<h3 style="border-radius:5px;padding-left:20px;color:#fff;	padding:20px;background-color:#39424e">Monthly </h3>
+	<div >
+		
+		<canvas id="graph1" width="800" height="400" >   
+        </canvas> 
+	</div>
+	<hr style="display: block; height: 1px;
+    border: 0; border-top: 1px solid #ccc;
+    margin: 1em 0; padding: 0;">
+	<h3 style="border-radius:5px;padding-left:20px;color:#fff;padding:20px;background-color:#39424e">All Time </h3>
+	<div >
+		
+		<canvas id="graph2" width="1450" height="400" >   
+        </canvas> 
+	</div>
+    </body>
+</html>

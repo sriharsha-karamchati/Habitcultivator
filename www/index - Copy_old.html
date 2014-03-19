@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+ <head>
+ <title>My Habits</title>
+<script src="js-1.js"></script>
+<script src="js-2.js"></script>
+<link rel="stylesheet" href="js-3.css">
+
+<!-- database script -->
+<script>   // Wait for Cordova to load
+
+            app.initialize();
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+			    function onDeviceReady() {
+        alert("first123!");
+//				var db = window.openDatabase("Database", "1.0", "Cordova habit_db", 200000);
+        alert("first456!");
+//				db.transaction(populateDB, errorCB, successCB);
+				
+			}
+			    function successCB() {
+        alert("success123!");
+    }
+
+    function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+
+
+    // Populate the database 
+    //
+    function populateDB(tx) {
+	var sql = "CREATE TABLE IF NOT EXISTS habits ( " +
+            "id INTEGER PRIMARY KEY habit_no, " +
+            "habit_name VARCHAR(50), " +
+            "question VARCHAR(100), " +
+            "time1 time)";
+			
+         tx.executeSql(sql);
+    }
+
+	
+	<!-- Created -->
+	
+	
+		    function get_table() {
+				var db = window.openDatabase("Database", "1.0", "Cordova habit_db", 200000);
+				db.transaction(queryDB, errorCB);
+				alert("querry3!!");
+			}
+
+			function queryDB(tx) {
+    tx.executeSql('SELECT * FROM habits', [], querySuccess, errorCB);
+}
+			
+
+    // Transaction success callback
+    //
+
+	
+	function querySuccess(tx, results) {
+    var len = results.rows.length;
+    console.log("DEMO table: " + len + " rows found.");
+    for (var i=0; i<len; i++){
+        console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+    }
+}
+
+
+
+		</script>
+
+
+<!-- database script -->
+
+
+<!-- My script-->
+	<script>
+	function list(){
+		// get the number of items from database .
+		var s = 10;
+		for(var i=0;i < s; i++)
+		{
+				var t = "<li data-corners='false' data-shadow='false' data-iconshadow='true' data-wrapperels='div' data-icon='arrow-r' data-iconpos='right' data-theme='a' class='ui-btn ui-btn-up-a ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top ui-corner-bottom ui-li-last'><div class='ui-btn-inner ui-li ui-corner-top'><div class='ui-btn-text'><a rel='external' href='add_habit.html' class='ui-link-inherit'>Hello</a></div><span class='ui-icon ui-icon-arrow-r ui-icon-shadow'>&nbsp;</span></div></li>";
+				$(t).appendTo( "#tweet-list" );
+		}
+						
+    }
+        window.onload = list;
+</script>
+	
+	<!-- Script -->
+ </head>
+<body>
+
+<div data-role="page" id="twitterPage" data-theme="a">
+		<h1 style="padding-left:600px">My Habits</h1>
+      <div data-role="content">
+        <ul id="tweet-list" data-role="listview" data-inset="true" data-filter="true" >
+			<li><a rel="external" href="add_habit.html" >Hello</a></li>
+			
+        </ul>
+		<ul id="tweet-list" data-role="listview" data-inset="true" data-filter="true" >
+		<li>Add Habit</li>
+		</ul>
+    </div>
+	
+</div>
+
+
+</body>

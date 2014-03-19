@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+	
+ <title>My Habits</title>
+<script src="js-1.js"></script>
+<script src="js-2.js"></script>
+<link rel="stylesheet" href="js-3.css">
+
+	
+		<script>   // Wait for Cordova to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    //
+	
+		    function onDeviceReady() {
+			//	alert('1');
+				var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+				db.transaction(populateDB, errorCB, successCB);
+				db.transaction(queryDB, errorCB1, querySuccess);
+		//		alert('6');
+			}
+
+			
+			
+
+function queryDB(tx) {
+    tx.executeSql('SELECT * FROM TAB1', [], querySuccess, errorCB1);
+}
+
+function querySuccess(tx, results) {
+//	alert(typeof(results));
+	for (var na in results) {
+	//	alert(typeof(na));
+	}
+
+    var len = results.rows.length;
+    console.log("DEMO table: " + len + " rows found.");
+	//var name = results.rows.item(0).name;
+	console.log("DEMO: " + results.rows.item(0).name + "rows found.");
+		var t = "<li data-corners='false' data-shadow='false' data-iconshadow='true' data-wrapperels='div' data-icon='arrow-r' data-filter='true' data-iconpos='right' data-theme='a' class='ui-btn ui-btn-up-a ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top ui-corner-bottom ui-li-last'><div class='ui-btn-inner ui-li ui-corner-top'><div class='ui-btn-text'><a rel='external' href='Habit name_new.html?a="+(results.rows.item(0).id).toString()+"' class='ui-link-inherit'>"+results.rows.item(0).name+"</a></div><span class='ui-icon ui-icon-arrow-r ui-icon-shadow'>&nbsp;</span></div></li>";
+		//		alert(t);
+				$(t).appendTo( "#tweet-list" );
+	
+	
+    for (var i=1;i<len; i++){
+        //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+		var name = results.rows.item(i).name;
+		var t = "<li data-corners='false' data-shadow='false' data-iconshadow='true' data-wrapperels='div' data-icon='arrow-r' data-iconpos='right' data-theme='a' class='ui-btn ui-btn-up-a ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top ui-corner-bottom ui-li-last'><div class='ui-btn-inner ui-li ui-corner-top'><div class='ui-btn-text'><a rel='external' href='Habit name_new.html?a="+(results.rows.item(i).id).toString()+"' class='ui-link-inherit'>"+name+"</a></div><span class='ui-icon ui-icon-arrow-r ui-icon-shadow'>&nbsp;</span></div></li>";
+				$(t).appendTo( "#tweet-list" );
+    }
+}
+
+    // Populate the database 
+    //
+    function populateDB(tx) {
+    //     tx.executeSql('DROP TABLE IF EXISTS TAB1');
+	//	alert('1');
+       tx.executeSql('CREATE TABLE IF NOT EXISTS TAB1(id unique , name varchar(50) , question varchar(100) ,time1 varchar(50) )');
+	// alert('2');
+       //  tx.executeSql('INSERT INTO TAB1 (id,name,question,time1) VALUES (1, "Jog","Did you jog today","5:00PM" )');
+	//	 alert('3');
+       //tx.executeSql('INSERT INTO TAB1 (id,name,question,time1) VALUES (2, "Eat","Did you eat today","10:00PM")');
+		// alert('4');
+		 
+		 
+    }
+
+
+	
+    // Transaction error callback
+    //
+    function errorCB(err) {
+       // alert("Error processing SQL: "+err);
+    }
+	
+	function errorCB1(err) {
+     //   alert("Error processing SQL123: "+err);
+    }
+
+
+    // Transaction success callback
+    //
+    function successCB() {
+   //     alert("successdfsdss!");
+    }
+
+		</script>
+
+
+
+		
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+
+	<div data-role="page" id="twitterPage" data-theme="a">
+		<h1 style="padding-left:600px">My Habits</h1>
+      <div data-role="content">
+        <ul id="tweet-list" data-role="listview" data-inset="true" data-filter="true" >
+			<!-- <li><a rel="external" href="
+			.html?a='Hello'" >Hello</a></li>  -->
+ 			
+        </ul>
+		<ul id="tweet-list" data-role="listview" data-inset="true"  >
+		<li><a rel="external" href="add_habit.html">Add Habit</li>
+		</ul>
+    </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+ <head>
+ <title>Habit Name</title>
+ 
+<script src="js-1.js"></script>
+<script src="js-2.js"></script>
+<script>
+
+	function getParameter(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+	    function fetchdata() {
+			var t = getParameter("a");
+			l='SELECT * FROM TAB1 WHERE name='+t;
+			alert(l);
+			
+			//var db = window.openDatabase("Database","1.0","Cordova Demo", 200000);
+			//db.transaction(queryDB, errorCB1, querySuccess);
+			}
+			function queryDB(tx) {
+			var t = getParameter("a");
+			l='SELECT * FROM TAB1 WHERE name='+t;
+			alert(l);
+			tx.executeSql(l, [], querySuccess, errorCB1);
+			}
+	
+	function querySuccess(tx, results) {
+
+    var len = results.rows.length;
+    console.log("DEMO table: " + len + " rows found.");
+	alert("'"+results.rows.item(0).name+"'");
+	console.log("DEMO: " + results.rows.item(0).name + "rows found.");
+	
+	
+    
+}
+
+	
+		function errorCB1(err) {
+        alert("Error processing SQLllllllc: "+err);
+    }
+	 function successCB() {
+        alert("success!");
+    }
+		
+				window.onload = fetchdata();
+		
+</script>
+<link rel="stylesheet" href="js-3.css">
+ </head>
+<body>
+
+
+<div data-role="page" id="twitterPage"  class="gp" data-theme="a">
+		<h1 id="hab" class="hab" style="padding-left:600px">Habit Name</h1>
+		
+		
+		     <div data-role="content">
+        <ul id="tweet-list" data-role="listview" data-inset="true"  >
+			 <li>Yesterday    </li>
+			 <li>This Week   </li>
+			 <li>This Month  </li>
+			 <li>Till Now   </li>
+		</ul>
+    </div>
+</div>
+		
+		<script>
+		var t=getParameter("a");
+		var a = document.getElementById("hab").innerHTML = t;
+		</script>
+ 
+
+</body>
